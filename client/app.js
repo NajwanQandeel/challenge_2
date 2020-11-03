@@ -1,20 +1,24 @@
 
-const converter = require('json-2-csv');
-const fs = require('fs');
-
-// read JSON from a file
-const todos = JSON.parse(fs.readFileSync('todos.json'));
-
-// convert JSON array to CSV string
-converter.json2csv(todos, (err, csv) => {
+const csvjson = require('csvjson');
+const readFile = require('fs').readFile;
+const writeFile = require('fs').writeFile;
+readFile('./test-data.json', 'utf-8', (err, fileContent) => {
     if (err) {
-        throw err;
+        console.log(err); // Do something to handle the error or just throw it
+        throw new Error(err);
     }
-
-    // print CSV string
-    console.log(csv);
-
-    // write CSV to a file
-    fs.writeFileSync('todos.csv', csv);
-    
+txs = JSON.parse(JSON.stringify(fileContent));
+finalTxs = []
+    for(let i=0; i<=1; i++) {
+      finalTxs.push(fileContent[i]);
+    }
+const csvData = csvjson.toCSV(finalTxs, {
+        headers: 'key'
+    });
+    writeFile('./test-data.csv', csvData, (err) => {
+        if(err) {
+            console.log(err); // Do something to handle the error or just throw it
+        }
+        console.log('Success!');
+    });
 });
