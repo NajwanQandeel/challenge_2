@@ -1,18 +1,23 @@
-const express = require('expres');
+const express = require("express");
+const app = express();
+var bodyParser = require("body-parser");
+var multer  = require('multer');
+var buffer = require('buffer/').Buffer
+var storage = multer.memoryStorage();
+var upload = multer({ storage: storage });
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static("public"));
 
-let app = express();
-app.use(express.urlencoded({ extended: true })) // to parse the data
-app.use(express.json()) // to make the content header     application/json
-// app.use(express.static(__dirname + './client/index'));
+app.get("/", function(request, response) {
+  response.sendFile(__dirname + "/client/index.html");
+});
 
-app.get('/upload_json', (req, res) => {
-    console.log(req);
-  })
-  
-  app.use('/',(req,res,next) => {
-    res.sendFile(path.join(__dirname,'public','index.html'));
-  });
-
+app.post("/upload", upload.single('file'), async (req, res) => {    
+  var b = req.file["buffer"]
+  console.log(b.toString())
+  res.send(b.toString())
+});
 
 
 
