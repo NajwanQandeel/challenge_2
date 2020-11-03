@@ -12,10 +12,16 @@
 </head>
 <body>
         <h1 >CSV " Report Genarator "</h1><br><br>
-        <form action='/upload_json' method="POST">
+        <form method="POST" action='/upload_json'>
+            <div>
+                <label for="file"> Choose a JSON file to upload </label>
+                <input type="file" id="file" name="file" multiple>
+                
+              </div>
+              
             <label for="JSON text" style="font-size:160%;">JSON Text :   <textarea id="JSON" name="JSON"></textarea> </label><br><br>
            <br>
-            <input type="submit" value="Submit">
+            <input type="submit" id="submit-btn"> 
           </form>
           <p style="color:red;">Click the "Submit" button and the form-data will be sent to the 
             server .</p>
